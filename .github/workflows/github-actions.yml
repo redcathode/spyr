@@ -17,8 +17,8 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
       - name: Package fat jar
-      - run: ./gradlew uber
-      - uses: actions/upload-artifact@v2
+        run: ./gradlew uber
+        uses: actions/upload-artifact@v2
         with:
           name: fat jar
           path: app/build/libs
