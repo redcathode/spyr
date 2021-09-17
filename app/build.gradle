@@ -14,6 +14,7 @@ plugins {
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -24,7 +25,12 @@ dependencies {
     implementation 'com.google.guava:guava:30.1.1-jre'
     implementation 'com.formdev:flatlaf:1.6'
     implementation 'com.intellij:forms_rt:7.0.3'
+    implementation 'com.github.sealedtx:java-youtube-downloader:3.0.1'
+    implementation 'net.harawata:appdirs:1.2.1'
 }
+
+
+
 
 application {
     // Define the main class for the application.
