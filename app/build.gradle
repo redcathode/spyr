@@ -30,6 +30,13 @@ dependencies {
 }
 
 
+jar {
+    manifest {
+        attributes("Implementation-Title": "Spyr",
+                "Implementation-Version": archiveVersion,
+                "Main-Class": "spyr.App")
+    }
+}
 
 
 application {
@@ -41,3 +48,23 @@ tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
+
+tasks.register('uberJar', Jar) {
+    archiveClassifier = 'uber'
+
+    from sourceSets.main.output
+
+    duplicatesStrategy = 'include'
+
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+    manifest {
+        attributes("Implementation-Title": "Spyr",
+                "Main-Class": "spyr.App")
+    }
+}
+
+
+
