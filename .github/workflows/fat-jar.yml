@@ -1,4 +1,4 @@
-name: Gradle Check
+name: Build fat jar
 
 on: [push]
 
@@ -14,5 +14,8 @@ jobs:
           distribution: 'adopt'
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
-      - name: Build with Gradle
-        run: ./gradlew build
+      - run: ./gradlew uber
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Package
+          path: app/build/libs
