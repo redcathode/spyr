@@ -18,5 +18,5 @@ jobs:
       - run: ./gradlew build
       - uses: actions/upload-artifact@v2
         with:
-          name: Package
+          name: Packages
           path: build/libs
