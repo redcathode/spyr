@@ -33,7 +33,6 @@ dependencies {
 jar {
     manifest {
         attributes("Implementation-Title": "Spyr",
-                "Implementation-Version": archiveVersion,
                 "Main-Class": "spyr.App")
     }
 }
