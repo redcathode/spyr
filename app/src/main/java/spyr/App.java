@@ -4,6 +4,7 @@
 package spyr;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import com.sun.tools.javac.Main;
 import net.harawata.appdirs.AppDirs;
 import net.harawata.appdirs.AppDirsFactory;
 
@@ -28,7 +29,7 @@ public class App {
         configDirLocation.mkdir();
         cacheDirLocation.mkdir();
         System.out.println("Configuration will be stored at " + cacheDir + " and cache will be located at " + configDir);
-
-        MainWindow.setup();
+        MainWindow mainWindow = new MainWindow();
+        mainWindow.setup();
     }
 }

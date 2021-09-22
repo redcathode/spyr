@@ -6,13 +6,10 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class MainWindow {
-    private static JMenuBar menuBar;
+    private JMenuBar menuBar;
     private JPanel panelMain;
     private JTextArea songInfoGoesHereTextArea;
     private JTextField songField;
@@ -56,12 +53,22 @@ public class MainWindow {
                 App.audioPlayer.start(songManager.songURLList.get(list1.getSelectedIndex()));
             }
         });
+
     }
 
-    public static void setup() {
+    public void setup() {
         JFrame frame = new JFrame("Spyr");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(new MainWindow().panelMain);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                App.audioPlayer.exit();
+                System.exit(0);
+//
+            }
+        });
+        frame.setContentPane(panelMain);
+
         frame.setPreferredSize(new Dimension(600, 600));
         frame.setJMenuBar(menuBar);
         frame.pack();
