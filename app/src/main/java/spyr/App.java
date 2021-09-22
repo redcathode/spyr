@@ -4,16 +4,31 @@
 package spyr;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import net.harawata.appdirs.AppDirs;
+import net.harawata.appdirs.AppDirsFactory;
 
 import javax.swing.*;
+import java.io.File;
 
 public class App {
+    public static AudioPlayer audioPlayer;
+    static AppDirs appDirs = AppDirsFactory.getInstance();
+    public static String cacheDir = appDirs.getUserCacheDir("Spyr", null, null);
+    public static String configDir = appDirs.getUserConfigDir("Spyr", null, null);
     public static void main(String[] args) {
+        audioPlayer = new AudioPlayer();
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
+
+        File cacheDirLocation = new File(cacheDir);
+        File configDirLocation = new File(configDir);
+        configDirLocation.mkdir();
+        cacheDirLocation.mkdir();
+        System.out.println("Configuration will be stored at " + cacheDir + " and cache will be located at " + configDir);
+
         MainWindow.setup();
     }
 }
