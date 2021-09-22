@@ -28,6 +28,7 @@ public class MainWindow {
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         $$$setupUI$$$();
+        addSongButton.putClientProperty("JButton.buttonType", "square");
         menuBar.add(fileMenu);
         JMenuItem settingsMenuItem = new JMenuItem("Settings");
         fileMenu.add(settingsMenuItem);
@@ -54,6 +55,10 @@ public class MainWindow {
             }
         });
 
+    }
+
+    public void setTime(int percentage) {
+        slider1.setValue(percentage);
     }
 
     public void setup() {
@@ -94,6 +99,7 @@ public class MainWindow {
         label1.setText("0:00");
         panelMain.add(label1, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         slider1 = new JSlider();
+        slider1.setValue(0);
         panelMain.add(slider1, new GridConstraints(3, 1, 1, 6, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         moveUpButton = new JButton();
         moveUpButton.setText("Move Up");

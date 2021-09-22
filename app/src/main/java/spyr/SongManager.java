@@ -34,7 +34,7 @@ public class SongManager {
         // might wanna do all of this asynchronously but whatever
         System.out.println(getVideoId(query));
         YoutubeDownloader downloader = new YoutubeDownloader();
-        String videoId = "dLrdSC9MVb4";
+        String videoId = getVideoId(query);
         RequestVideoInfo request = new RequestVideoInfo(videoId);
         Response<VideoInfo> response = downloader.getVideoInfo(request);
         VideoInfo video = response.data();

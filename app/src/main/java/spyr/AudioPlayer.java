@@ -38,12 +38,6 @@ public class AudioPlayer {
             @Override
             public void positionChanged(MediaPlayer player, final float newPosition) {
                 System.out.println(Math.round(newPosition * 100) + "%");
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                });
                 System.out.println(totalTimeMs);
             }
         });

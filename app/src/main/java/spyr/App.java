@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.io.File;
 
 public class App {
+    public static MainWindow mainWindow;
     public static AudioPlayer audioPlayer;
     static AppDirs appDirs = AppDirsFactory.getInstance();
     public static String cacheDir = appDirs.getUserCacheDir("Spyr", null, null);
