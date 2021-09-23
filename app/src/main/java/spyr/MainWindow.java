@@ -32,7 +32,7 @@ public class MainWindow {
         menuBar.add(fileMenu);
         JMenuItem settingsMenuItem = new JMenuItem("Settings");
         fileMenu.add(settingsMenuItem);
-
+        // actionlisteners n' timers
         addSongButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -54,7 +54,14 @@ public class MainWindow {
                 App.audioPlayer.start(songManager.songURLList.get(list1.getSelectedIndex()));
             }
         });
-
+        Timer sliderTimer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: do this from AudioPlayer rather than polling it every 100ms
+                slider1.setValue(App.audioPlayer.currentPercentage);
+            }
+        });
+        sliderTimer.start();
     }
 
     public void setTime(int percentage) {

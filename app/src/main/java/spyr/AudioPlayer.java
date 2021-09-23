@@ -4,13 +4,11 @@ import uk.co.caprica.vlcj.player.base.MediaPlayer;
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
 import uk.co.caprica.vlcj.player.component.AudioPlayerComponent;
 
-import javax.swing.*;
-import java.util.concurrent.TimeUnit;
-
 public class AudioPlayer {
     private final AudioPlayerComponent audioPlayerComponent;
     public long totalTimeMs;
     public long currentTimeMs;
+    public int currentPercentage;
 
     public void exit() {
         // It is not allowed to call back into LibVLC from an event handling thread, so submit() is used
@@ -37,8 +35,8 @@ public class AudioPlayer {
 
             @Override
             public void positionChanged(MediaPlayer player, final float newPosition) {
-                System.out.println(Math.round(newPosition * 100) + "%");
-                System.out.println(totalTimeMs);
+                currentPercentage = Math.round(newPosition * 100);
+                System.out.println(currentPercentage + "%");
             }
         });
     }
