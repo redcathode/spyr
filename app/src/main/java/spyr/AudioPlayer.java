@@ -55,5 +55,11 @@ public class AudioPlayer {
     public void start(String mrl) {
         audioPlayerComponent.mediaPlayer().media().play(mrl);
     }
+    public void play() {
+        audioPlayerComponent.mediaPlayer().controls().play();
+    }
+    public void pause() {
+        audioPlayerComponent.mediaPlayer().controls().pause();
+    }
 
 }

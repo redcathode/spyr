@@ -16,9 +16,7 @@ public class MainWindow {
     private JButton addSongButton;
     private JSlider slider1;
     private JList list1;
-    private JButton moveUpButton;
-    private JButton moveDownButton;
-    private JButton playFromHereButton;
+    private JButton pauseButton;
     private JTree tree1;
     DefaultListModel listModel = new DefaultListModel();
     SongManager songManager;
@@ -71,11 +69,24 @@ public class MainWindow {
         });
         sliderTimer.start();
 
+        pauseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (pauseButton.getText().equals("Pause")) {
+                    App.audioPlayer.pause();
+                    pauseButton.setText("Play");
+                } else {
+                    App.audioPlayer.play();
+                    pauseButton.setText("Pause");
+                }
+            }
+        });
     }
 
     public void setTime(int percentage) {
         slider1.setValue(percentage);
     }
+
     public String getNextSongUrl() {
         list1.setSelectedIndex(songManager.playingIndex + 1);
         return songManager.getNextSongUrl();
@@ -110,35 +121,29 @@ public class MainWindow {
     private void $$$setupUI$$$() {
         createUIComponents();
         panelMain = new JPanel();
-        panelMain.setLayout(new GridLayoutManager(4, 8, new Insets(0, 0, 0, 0), -1, -1));
+        panelMain.setLayout(new GridLayoutManager(3, 9, new Insets(0, 0, 0, 0), -1, -1));
         panelMain.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JScrollPane scrollPane1 = new JScrollPane();
-        panelMain.add(scrollPane1, new GridConstraints(0, 0, 1, 8, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panelMain.add(scrollPane1, new GridConstraints(0, 0, 1, 9, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         scrollPane1.setViewportView(list1);
         final JLabel label1 = new JLabel();
         label1.setText("0:00");
-        panelMain.add(label1, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panelMain.add(label1, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         slider1 = new JSlider();
         slider1.setValue(0);
-        panelMain.add(slider1, new GridConstraints(3, 1, 1, 6, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        moveUpButton = new JButton();
-        moveUpButton.setText("Move Up");
-        panelMain.add(moveUpButton, new GridConstraints(2, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        moveDownButton = new JButton();
-        moveDownButton.setText("Move Down");
-        panelMain.add(moveDownButton, new GridConstraints(2, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panelMain.add(slider1, new GridConstraints(2, 2, 1, 6, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label2 = new JLabel();
         label2.setText("0:00");
-        panelMain.add(label2, new GridConstraints(3, 7, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panelMain.add(label2, new GridConstraints(2, 8, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         songField = new JTextField();
         songField.setText("");
-        panelMain.add(songField, new GridConstraints(1, 0, 1, 6, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        panelMain.add(songField, new GridConstraints(1, 0, 1, 7, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         addSongButton = new JButton();
         addSongButton.setText("Add song!");
-        panelMain.add(addSongButton, new GridConstraints(1, 6, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        playFromHereButton = new JButton();
-        playFromHereButton.setText("Play From Here");
-        panelMain.add(playFromHereButton, new GridConstraints(2, 6, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panelMain.add(addSongButton, new GridConstraints(1, 7, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        pauseButton = new JButton();
+        pauseButton.setText("Pause");
+        panelMain.add(pauseButton, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
