@@ -20,12 +20,23 @@ public class AudioPlayer {
         });
     }
 
+    public void setPosition(float position) {
+        audioPlayerComponent.mediaPlayer().controls().setPosition(position);
+    }
+
     public AudioPlayer() {
         audioPlayerComponent = new AudioPlayerComponent();
         audioPlayerComponent.mediaPlayer().events().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
             @Override
             public void finished(MediaPlayer mediaPlayer) {
-                //todo: implement this
+                mediaPlayer.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("finished song but this needs to be implemented");
+                        mediaPlayer.media().play(App.mainWindow.getNextSongUrl());
+                    }
+                });
+
             }
 
             @Override

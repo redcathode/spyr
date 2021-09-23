@@ -21,10 +21,11 @@ public class MainWindow {
     private JButton playFromHereButton;
     private JTree tree1;
     DefaultListModel listModel = new DefaultListModel();
+    SongManager songManager;
 
 
     public MainWindow() {
-        SongManager songManager = new SongManager(AudioQuality.HIGH);
+        songManager = new SongManager(AudioQuality.HIGH);
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         $$$setupUI$$$();
@@ -51,7 +52,14 @@ public class MainWindow {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                App.audioPlayer.start(songManager.songURLList.get(list1.getSelectedIndex()));
+                App.audioPlayer.start(songManager.getSongUrl(list1.getSelectedIndex()));
+            }
+        });
+        slider1.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                super.mouseDragged(e);
+                App.audioPlayer.setPosition((float) slider1.getValue() / 100);
             }
         });
         Timer sliderTimer = new Timer(100, new ActionListener() {
@@ -62,10 +70,15 @@ public class MainWindow {
             }
         });
         sliderTimer.start();
+
     }
 
     public void setTime(int percentage) {
         slider1.setValue(percentage);
+    }
+    public String getNextSongUrl() {
+        list1.setSelectedIndex(songManager.playingIndex + 1);
+        return songManager.getNextSongUrl();
     }
 
     public void setup() {

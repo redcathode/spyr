@@ -30,7 +30,7 @@ public class App {
         configDirLocation.mkdir();
         cacheDirLocation.mkdir();
         System.out.println("Configuration will be stored at " + cacheDir + " and cache will be located at " + configDir);
-        MainWindow mainWindow = new MainWindow();
+        mainWindow = new MainWindow();
         mainWindow.setup();
     }
 }

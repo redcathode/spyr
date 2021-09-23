@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 
 public class SongManager {
+    public int playingIndex = 0;
     public ArrayList<String> songTitleList = new ArrayList<>();
     public ArrayList<String> songURLList = new ArrayList<>();
     public ArrayList<String> songDescList = new ArrayList<>();
@@ -19,6 +20,18 @@ public class SongManager {
         quality = audioQuality;
     }
     static YoutubeDownloader downloader = new YoutubeDownloader();
+    public String getSongUrl(int index) {
+        playingIndex = index;
+        return songURLList.get(index);
+    }
+    public String getNextSongUrl() {
+        if (playingIndex + 1 > songURLList.size()) {
+            playingIndex = 0;
+        } else {
+            playingIndex++;
+        }
+        return songURLList.get(playingIndex);
+    }
     private String getVideoId(String url) {
         String id;
 
