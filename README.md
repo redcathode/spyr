@@ -3,6 +3,7 @@ Spyr is a music streaming client built in Java and Swing that aims to be a funct
 ## Roadmap (in no particular order)
 
 - [x] Basic audio playback from Youtube
+- [ ] An icon! (and possibly some sort of banner to show at the top)
 - [ ] Search YouTube (preferably without needing an API key)
 - [ ] Support Spotify playlists and tracks (probably using the Spotify Web API and searching YT for the songs)
 - [ ] Support playlists at all

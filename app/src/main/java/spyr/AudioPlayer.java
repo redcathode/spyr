@@ -6,9 +6,6 @@ import uk.co.caprica.vlcj.player.component.AudioPlayerComponent;
 
 public class AudioPlayer {
     private final AudioPlayerComponent audioPlayerComponent;
-    public long totalTimeMs;
-    public long currentTimeMs;
-    public int currentPercentage;
 
     public void exit() {
         // It is not allowed to call back into LibVLC from an event handling thread, so submit() is used
@@ -32,7 +29,6 @@ public class AudioPlayer {
                 mediaPlayer.submit(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println("finished song but this needs to be implemented");
                         mediaPlayer.media().play(App.mainWindow.getNextSongUrl());
                     }
                 });
@@ -42,12 +38,6 @@ public class AudioPlayer {
             @Override
             public void error(MediaPlayer mediaPlayer) {
                 System.out.println("Error with LibVLC");
-            }
-
-            @Override
-            public void positionChanged(MediaPlayer player, final float newPosition) {
-                currentPercentage = Math.round(newPosition * 100);
-                System.out.println(currentPercentage + "%");
             }
         });
     }
@@ -61,5 +51,7 @@ public class AudioPlayer {
     public void pause() {
         audioPlayerComponent.mediaPlayer().controls().pause();
     }
-
+    public int getPercentage() {
+        return Math.round(audioPlayerComponent.mediaPlayer().status().position() * 100);
+    }
 }

@@ -53,6 +53,7 @@ public class MainWindow {
                 App.audioPlayer.start(songManager.getSongUrl(list1.getSelectedIndex()));
             }
         });
+
         slider1.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -60,11 +61,12 @@ public class MainWindow {
                 App.audioPlayer.setPosition((float) slider1.getValue() / 100);
             }
         });
-        Timer sliderTimer = new Timer(100, new ActionListener() {
+
+        Timer sliderTimer = new Timer(200, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: do this from AudioPlayer rather than polling it every 100ms
-                slider1.setValue(App.audioPlayer.currentPercentage);
+                // TODO: do this from AudioPlayer rather than polling it every 200ms
+                slider1.setValue(App.audioPlayer.getPercentage());
             }
         });
         sliderTimer.start();
