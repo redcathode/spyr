@@ -10,6 +10,4 @@ Spyr is a music streaming client built in Java and Swing that aims to be a funct
 - [ ] Show frequently played songs and playlists / previous listening sessions
 - [ ] Show track thumbnail/info
 - [ ] Integrate with system media playback controls
-
-
-
+- [ ] support drag n' dropping songs, both stuff from JLists within the app and links from outside apps
