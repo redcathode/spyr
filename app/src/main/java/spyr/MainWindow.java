@@ -50,7 +50,10 @@ public class MainWindow {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                App.audioPlayer.start(songManager.getSongUrl(list1.getSelectedIndex()));
+                if (e.getClickCount() == 2) {
+                    App.audioPlayer.start(songManager.getSongUrl(list1.getSelectedIndex()));
+                }
+
             }
         });
 
@@ -65,7 +68,7 @@ public class MainWindow {
         Timer sliderTimer = new Timer(200, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: do this from AudioPlayer rather than polling it every 200ms
+                // TODO: do this from AudioPlayer rather than polling it every 2w00ms
                 slider1.setValue(App.audioPlayer.getPercentage());
             }
         });

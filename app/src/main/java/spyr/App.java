@@ -15,8 +15,8 @@ public class App {
     public static MainWindow mainWindow;
     public static AudioPlayer audioPlayer;
     static AppDirs appDirs = AppDirsFactory.getInstance();
-    public static String cacheDir = appDirs.getUserCacheDir("Spyr", null, null);
     public static String configDir = appDirs.getUserConfigDir("Spyr", null, null);
+    public static File configJson;
     public static void main(String[] args) {
         audioPlayer = new AudioPlayer();
         try {
@@ -24,12 +24,17 @@ public class App {
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
-
-        File cacheDirLocation = new File(cacheDir);
         File configDirLocation = new File(configDir);
-        configDirLocation.mkdir();
-        cacheDirLocation.mkdir();
-        System.out.println("Configuration will be stored at " + cacheDir + " and cache will be located at " + configDir);
+        File configJson = new File(configDir + "/config.json");
+        try {
+            configDirLocation.mkdir();
+            if (configJson.createNewFile()) {
+                //TODO: initial setup
+            }
+        } catch (Exception e) {
+            System.out.println("Error creating config files! Do you have the required permissions?");
+        }
+        System.out.println("Configuration will be stored at " + configJson);
         mainWindow = new MainWindow();
         mainWindow.setup();
     }
