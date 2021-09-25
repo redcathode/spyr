@@ -68,7 +68,7 @@ public class MainWindow {
         Timer sliderTimer = new Timer(200, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: do this from AudioPlayer rather than polling it every 2w00ms
+                // TODO: do this from AudioPlayer rather than polling it every 200ms
                 slider1.setValue(App.audioPlayer.getPercentage());
             }
         });
@@ -77,7 +77,8 @@ public class MainWindow {
         pauseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (pauseButton.getText().equals("Pause")) {
+
+                if (pauseButton.getText().equals("Pause") && App.audioPlayer.isPlaying()) {
                     App.audioPlayer.pause();
                     pauseButton.setText("Play");
                 } else {

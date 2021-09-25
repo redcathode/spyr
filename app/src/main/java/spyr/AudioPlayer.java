@@ -16,7 +16,9 @@ public class AudioPlayer {
             }
         });
     }
-
+    public boolean isPlaying() {
+        return audioPlayerComponent.mediaPlayer().status().isPlaying();
+    }
     public void setPosition(float position) {
         audioPlayerComponent.mediaPlayer().controls().setPosition(position);
     }
