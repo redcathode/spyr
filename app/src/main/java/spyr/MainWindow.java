@@ -35,6 +35,13 @@ public class MainWindow {
         addSongButton.putClientProperty("JButton.buttonType", "square");
         menuBar.add(fileMenu);
         JMenuItem settingsMenuItem = new JMenuItem("Settings");
+        settingsMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SettingsWindow settingsWindow = new SettingsWindow();
+                settingsWindow.setup();
+            }
+        });
         fileMenu.add(settingsMenuItem);
         // actionlisteners n' timers
         addSongButton.addActionListener(new ActionListener() {

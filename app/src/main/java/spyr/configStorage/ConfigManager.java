@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class ConfigManager {
     ArrayList<Song> songJsonList;
+    AppConfig appConfig;
     Type songJsonListType = new TypeToken<ArrayList<Song>>(){}.getType();
     public static String createDefaultConfig() {
         return "{\"isDarkMode\":false}";
@@ -22,7 +23,7 @@ public class ConfigManager {
         Gson gson = new Gson();
         try {
             songJsonList = gson.fromJson(new JsonReader(new FileReader(App.songsJson)), songJsonListType);
-            System.out.println(songJsonList.toString());
+            appConfig = gson.fromJson(new JsonReader(new FileReader(App.configJson)), AppConfig.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,5 +72,15 @@ public class ConfigManager {
     }
     public int getNumSongs() {
         return songJsonList.size();
+    }
+    public boolean getIsDarkMode() {
+        return appConfig.isDarkMode;
+    }
+    public void setIsDarkMode(boolean isDarkMode) {
+        appConfig.isDarkMode = isDarkMode;
+    }
+    public String getAppConfigJson() {
+        Gson gson = new Gson();
+        return gson.toJson(appConfig);
     }
 }

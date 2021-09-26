@@ -3,7 +3,9 @@
  */
 package spyr;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.google.gson.Gson;
 import net.harawata.appdirs.AppDirs;
 import net.harawata.appdirs.AppDirsFactory;
 import spyr.configStorage.ConfigManager;
@@ -19,9 +21,11 @@ public class App {
     static AppDirs appDirs = AppDirsFactory.getInstance();
     public static String configDir = appDirs.getUserConfigDir("Spyr", null, null);
     public static File songsJson;
+    public static File configJson;
+    public static ConfigManager appConfigManager;
     public static void openConfig() {
         File configDirLocation = new File(configDir);
-        File configJson = new File(configDir + "/config.json");
+        configJson = new File(configDir + "/config.json");
         songsJson = new File(configDir + "/songs.json");
         try {
             if (configDirLocation.mkdir()) {
@@ -44,22 +48,33 @@ public class App {
     public static void writeOutJson() {
         //todo: this entire method does a great job of showcasing how little I know about java OOP
         songsJson.delete();
+        configJson.delete();
         try {
             songsJson.createNewFile();
+            configJson.createNewFile();
             Writer songsWriter = Files.newBufferedWriter(Paths.get(configDir + "/songs.json"));
+            Writer configWriter = Files.newBufferedWriter(Paths.get(configDir + "/config.json"));
             songsWriter.write(mainWindow.songManager.configManager.getJson());
+            configWriter.write(appConfigManager.getAppConfigJson());
             songsWriter.close();
+            configWriter.close();
         } catch (Exception ignored) { }
     }
     public static void main(String[] args) {
         audioPlayer = new AudioPlayer();
+        openConfig();
+        System.out.println("Configuration will be stored at " + configDir);
+
+        appConfigManager = new ConfigManager();
         try {
-            UIManager.setLookAndFeel(new FlatLightLaf());
+            if (appConfigManager.getIsDarkMode()) {
+                UIManager.setLookAndFeel(new FlatDarkLaf());
+            } else {
+                UIManager.setLookAndFeel(new FlatLightLaf());
+            }
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
-        openConfig();
-        System.out.println("Configuration will be stored at " + configDir);
         mainWindow = new MainWindow();
         mainWindow.setup();
     }
