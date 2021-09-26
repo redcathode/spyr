@@ -28,12 +28,31 @@ public class ConfigManager {
         }
 
     }
-    public void addSongToJson(String songName, String songUrl) {
-        songJsonList.add(new Song(
-                songName,
-                songUrl,
-                1
-        ));  // TODO: count number of songs instead of adding every song and get rid of next line
+    public void addSongToJson(String songName, String songId) {
+        if (!songJsonList.isEmpty()) {
+            boolean foundSong = false;
+            for (int songIndex = 0; songIndex < songJsonList.size(); songIndex++) {
+                if (songJsonList.get(songIndex).youtubeId.equals(songId)) {
+                    songJsonList.get(songIndex).timesListenedTo++;
+                    foundSong = true;
+                }
+            }
+            // could this be replaced with a break statement or something?
+            if (!foundSong){
+                songJsonList.add(new Song(
+                        songName,
+                        songId,
+                        1
+                ));
+            }
+        } else {
+            songJsonList.add(new Song(
+                    songName,
+                    songId,
+                    1
+            ));
+        }
+
         Gson gsonTest = new Gson();
         System.out.println("Current song JSON: " + gsonTest.toJson(songJsonList));
     }
