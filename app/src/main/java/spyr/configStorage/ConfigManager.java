@@ -13,7 +13,7 @@ public class ConfigManager {
     ArrayList<Song> songJsonList;
     Type songJsonListType = new TypeToken<ArrayList<Song>>(){}.getType();
     public static String createDefaultConfig() {
-        return "{'isDarkMode':false}";
+        return "{\"isDarkMode\":false}";
     }
     public static String createTestSongsConfig() {
         return "[]";
@@ -31,9 +31,9 @@ public class ConfigManager {
     public void addSongToJson(String songName, String songId) {
         if (!songJsonList.isEmpty()) {
             boolean foundSong = false;
-            for (int songIndex = 0; songIndex < songJsonList.size(); songIndex++) {
-                if (songJsonList.get(songIndex).youtubeId.equals(songId)) {
-                    songJsonList.get(songIndex).timesListenedTo++;
+            for (Song song : songJsonList) {
+                if (song.youtubeId.equals(songId)) {
+                    song.timesListenedTo++;
                     foundSong = true;
                 }
             }
