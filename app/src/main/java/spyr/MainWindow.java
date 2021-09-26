@@ -189,16 +189,15 @@ public class MainWindow {
 
     private void createUIComponents() {
         list1 = new JList(listModel);
-        list1.setDragEnabled(true);
         recentSongTable = new JTable(new AbstractTableModel() {
             @Override
             public int getRowCount() {
-                return 2;
+                return songManager.configManager.getNumSongs();
             }
 
             @Override
             public int getColumnCount() {
-                return songManager.configManager.getNumSongs();
+                return 2;
             }
 
             @Override
@@ -210,7 +209,6 @@ public class MainWindow {
                 }
             }
         });
-        recentSongTable.setDragEnabled(true);
         recentSongTable.getColumnModel().getColumn(1).setMaxWidth(10);
     }
 }
