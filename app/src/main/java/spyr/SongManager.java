@@ -6,18 +6,22 @@ import com.github.kiulian.downloader.downloader.request.RequestVideoInfo;
 import com.github.kiulian.downloader.downloader.response.Response;
 import com.github.kiulian.downloader.model.videos.VideoInfo;
 import com.github.kiulian.downloader.model.videos.formats.Format;
+import spyr.configStorage.ConfigManager;
 
 import java.util.ArrayList;
 
 
 public class SongManager {
     public int playingIndex = 0;
+    public ConfigManager configManager;
     public ArrayList<String> songTitleList = new ArrayList<>();
     public ArrayList<String> songURLList = new ArrayList<>();
     public ArrayList<String> songDescList = new ArrayList<>();
     public AudioQuality quality;
+
     public SongManager(AudioQuality audioQuality) {
         quality = audioQuality;
+        configManager = new ConfigManager();
     }
     static YoutubeDownloader downloader = new YoutubeDownloader();
     public String getSongUrl(int index) {
@@ -58,9 +62,11 @@ public class SongManager {
         if (formatOpusByItag != null) {
             System.out.println("opus: " + formatOpusByItag.url());
         }
+        String vidTitle = video.details().title();
         songURLList.add(formatOpusByItag.url());
-        songTitleList.add(video.details().title());
+        songTitleList.add(vidTitle);
         songDescList.add(video.details().description());
+        configManager.addSongToJson(vidTitle, videoId);
         System.out.println("added song " + songTitleList.get(songTitleList.size() - 1));
     }
 
