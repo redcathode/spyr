@@ -52,7 +52,9 @@ public class MainWindow {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 if (e.getClickCount() == 2) {
-                    App.audioPlayer.start(songManager.getSongUrl(list1.getSelectedIndex()));
+                    if (!songManager.songTitleList.isEmpty()) {
+                        App.audioPlayer.start(songManager.getSongUrl(list1.getSelectedIndex()));
+                    }
                 }
 
             }
