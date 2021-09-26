@@ -16,7 +16,8 @@ If that little blurb somehow managed to sell you already, know that this project
 - [ ] Search YouTube (preferably without needing an API key)
 - [ ] Support Spotify playlists and tracks (probably using the Spotify Web API and searching YT for the songs)
 - [ ] Support playlists at all
-- [x] Show frequently played songs and playlists / [ ] previous listening sessions
+- [x] Show frequently played songs (and playlists once that gets included)
+- [ ] Show previous listening sessions
 - [ ] Show track thumbnail/info
 - [ ] Integrate with system media playback controls
 - [ ] support drag n' dropping songs, both stuff from JLists within the app and links from outside apps
