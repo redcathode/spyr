@@ -5,6 +5,8 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -21,7 +23,9 @@ public class MainWindow {
     private JTree tree1;
     DefaultListModel listModel = new DefaultListModel();
     SongManager songManager;
-
+    public void setPlaying() {
+        pauseButton.setText("Pause");
+    }
 
     public MainWindow() {
         songManager = new SongManager(AudioQuality.HIGH);
@@ -51,15 +55,12 @@ public class MainWindow {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (e.getClickCount() == 2) {
-                    if (!songManager.songTitleList.isEmpty()) {
-                        App.audioPlayer.start(songManager.getSongUrl(list1.getSelectedIndex()));
-                    }
+                if (!songManager.songTitleList.isEmpty()) {
+                    App.audioPlayer.start(songManager.getSongUrl(list1.getSelectedIndex()));
                 }
-
             }
         });
-
+        // can these two be merged?
         slider1.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -67,7 +68,13 @@ public class MainWindow {
                 App.audioPlayer.setPosition((float) slider1.getValue() / 100);
             }
         });
-
+        slider1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                App.audioPlayer.setPosition((float) slider1.getValue() / 100);
+            }
+        });
         Timer sliderTimer = new Timer(200, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,13 +87,31 @@ public class MainWindow {
         pauseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                if (pauseButton.getText().equals("Pause") && App.audioPlayer.isPlaying()) {
+                if (App.audioPlayer.isPlaying()) {
                     App.audioPlayer.pause();
                     pauseButton.setText("Play");
-                } else {
+                } else if (pauseButton.getText().equals("Play")) {
                     App.audioPlayer.play();
                     pauseButton.setText("Pause");
+                } else {
+                    if (!songManager.songTitleList.isEmpty()) {
+                        try {
+                            App.audioPlayer.start(songManager.songURLList.get(list1.getSelectedIndex()));
+                        } catch (IndexOutOfBoundsException ignored) {
+                            App.audioPlayer.start(songManager.songURLList.get(0));
+                        }
+                        pauseButton.setText("Pause");
+                    }
+                }
+            }
+        });
+        recentSongTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (e.getClickCount() == 2) {
+                    songManager.addExistingSong(songManager.configManager.getYoutubeId(recentSongTable.getSelectedRow()));
+                    listModel.add(listModel.size(), songManager.songTitleList.get(listModel.size()));
                 }
             }
         });
@@ -114,7 +139,6 @@ public class MainWindow {
             }
         });
         frame.setContentPane(panelMain);
-
         frame.setPreferredSize(new Dimension(600, 600));
         frame.setJMenuBar(menuBar);
         frame.pack();
@@ -136,31 +160,24 @@ public class MainWindow {
         final JScrollPane scrollPane1 = new JScrollPane();
         panelMain.add(scrollPane1, new GridConstraints(0, 0, 2, 6, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         scrollPane1.setViewportView(list1);
-        final JLabel label1 = new JLabel();
-        label1.setText("0:00");
-        panelMain.add(label1, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        slider1 = new JSlider();
-        slider1.setValue(0);
-        panelMain.add(slider1, new GridConstraints(3, 2, 1, 9, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         songField = new JTextField();
         songField.setText("");
         panelMain.add(songField, new GridConstraints(2, 0, 1, 10, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         pauseButton = new JButton();
-        pauseButton.setText("Pause");
+        pauseButton.setText("Start");
         panelMain.add(pauseButton, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        recentSongTable = new JTable();
-        recentSongTable.setEnabled(false);
+        recentSongTable.setEnabled(true);
         recentSongTable.setFillsViewportHeight(false);
         panelMain.add(recentSongTable, new GridConstraints(1, 6, 1, 6, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         addSongButton = new JButton();
         addSongButton.setText("Add song!");
         panelMain.add(addSongButton, new GridConstraints(2, 10, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label2 = new JLabel();
-        label2.setText("0:00");
-        panelMain.add(label2, new GridConstraints(3, 11, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label3 = new JLabel();
-        label3.setText("Recently Listened");
-        panelMain.add(label3, new GridConstraints(0, 6, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label1 = new JLabel();
+        label1.setText("Recently Listened");
+        panelMain.add(label1, new GridConstraints(0, 6, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        slider1 = new JSlider();
+        slider1.setValue(0);
+        panelMain.add(slider1, new GridConstraints(3, 1, 1, 11, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
@@ -172,7 +189,28 @@ public class MainWindow {
 
     private void createUIComponents() {
         list1 = new JList(listModel);
+        list1.setDragEnabled(true);
+        recentSongTable = new JTable(new AbstractTableModel() {
+            @Override
+            public int getRowCount() {
+                return 2;
+            }
 
-        // Column Names
+            @Override
+            public int getColumnCount() {
+                return songManager.configManager.getNumSongs();
+            }
+
+            @Override
+            public Object getValueAt(int rowIndex, int columnIndex) {
+                if (columnIndex == 0) {
+                    return songManager.configManager.getTitle(rowIndex);
+                } else {
+                    return songManager.configManager.getTimesListenedTo(rowIndex);
+                }
+            }
+        });
+        recentSongTable.setDragEnabled(true);
+        recentSongTable.getColumnModel().getColumn(1).setMaxWidth(10);
     }
 }

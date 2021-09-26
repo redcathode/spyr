@@ -4,6 +4,8 @@ import uk.co.caprica.vlcj.player.base.MediaPlayer;
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
 import uk.co.caprica.vlcj.player.component.AudioPlayerComponent;
 
+import javax.swing.*;
+
 public class AudioPlayer {
     private final AudioPlayerComponent audioPlayerComponent;
 
@@ -45,6 +47,12 @@ public class AudioPlayer {
     }
 
     public void start(String mrl) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                App.mainWindow.setPlaying();
+            }
+        });
         audioPlayerComponent.mediaPlayer().media().play(mrl);
     }
     public void play() {

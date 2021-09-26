@@ -60,5 +60,16 @@ public class ConfigManager {
         Gson gson = new Gson();
         return gson.toJson(songJsonList);
     }
-
+    public String getTitle(int index) {
+        return songJsonList.get(index).name;
+    }
+    public int getTimesListenedTo(int index) {
+        return songJsonList.get(index).timesListenedTo;
+    }
+    public String getYoutubeId(int index) {
+        return songJsonList.get(index).youtubeId;
+    }
+    public int getNumSongs() {
+        return songJsonList.size();
+    }
 }

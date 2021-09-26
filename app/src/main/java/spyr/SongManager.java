@@ -69,6 +69,22 @@ public class SongManager {
         configManager.addSongToJson(vidTitle, videoId);
         System.out.println("added song " + songTitleList.get(songTitleList.size() - 1));
     }
+    public void addExistingSong(String videoId) {
+        YoutubeDownloader downloader = new YoutubeDownloader();
+        RequestVideoInfo request = new RequestVideoInfo(videoId);
+        Response<VideoInfo> response = downloader.getVideoInfo(request);
+        VideoInfo video = response.data();
+        // get opus track for song
+        // TODO: fallback to other audio tracks if this specific itag is unavailable, and actually make AudioQuality do something
+        Format formatOpusByItag = video.findFormatByItag(251);
+        if (formatOpusByItag != null) {
+            System.out.println("opus: " + formatOpusByItag.url());
+        }
+        songURLList.add(formatOpusByItag.url());
+        songTitleList.add(video.details().title());
+        songDescList.add(video.details().description());
+
+    }
 
     public static boolean isYoutubeURL(String query) {
         return query.contains("youtube.com") || query.contains("youtu.be");
