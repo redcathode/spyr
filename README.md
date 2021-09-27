@@ -18,7 +18,7 @@ You can grab a stable release from [here.](https://github.com/asolidtime/spyr/re
 - [ ] Screenshots! (and just a bette readme in general)
 - [ ] A better README! (this one has too many parentheses and maybe a few too many exclamation points!)
 - [ ] Search YouTube (preferably without needing an API key)
-- [ ] Support Spotify playlists and tracks (probably using the Spotify Web API or Odesli and searching YT for the songs)
+- [ ] Support Spotify playlists and tracks (probably using Odesli)
 - [ ] Support playlists at all
 - [x] Show frequently played songs (and playlists once that gets included)
 - [ ] Show previous listening sessions
