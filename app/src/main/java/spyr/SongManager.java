@@ -80,10 +80,11 @@ public class SongManager {
         if (formatOpusByItag != null) {
             System.out.println("opus: " + formatOpusByItag.url());
         }
+        String vidTitle = video.details().title();
         songURLList.add(formatOpusByItag.url());
-        songTitleList.add(video.details().title());
+        songTitleList.add(vidTitle);
         songDescList.add(video.details().description());
-
+        configManager.addSongToJson(vidTitle, videoId);
     }
 
     public static boolean isYoutubeURL(String query) {
