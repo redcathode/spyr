@@ -1,11 +1,10 @@
 # Spyr
 
-Spyr (rhymes with 'spire') is a music streaming client built in Java and Swing that aims to be a functional replacement to the music streaming bots popular on Discord. It's also an effort for me to teach myself more about Java.
+Spyr (sounds like 'spire') is a music streaming client built in Java and Swing that aims to be a functional replacement to the music streaming bots popular on Discord. It's also an effort for me to teach myself more about Java.
 
 **Alright, where can I get it?**
 
-If that little blurb somehow managed to sell you already, know that this project is still in a *VERY* rudimentary state. As such, there aren't yet any official releases, but you can grab the latest version of the code that compiled successfully by clicking [this link.](https://nightly.link/asolidtime/spyr/workflows/github-actions/main/JAR%20package.zip) Note that it requires [the latest version of Java](https://adoptopenjdk.net/?variant=openjdk16&jvmVariant=hotspot) and [VLC 3.0.0 or newer.](https://www.videolan.org/vlc/)
-
+If that little blurb somehow managed to sell you already, you can grab a stable release from [here.](https://github.com/asolidtime/spyr/releases) If you want the absolute latest version, click [this link.](https://nightly.link/asolidtime/spyr/workflows/github-actions/main/JAR%20package.zip) Note that both require [the latest version of Java](https://adoptopenjdk.net/?variant=openjdk16&jvmVariant=hotspot) and [VLC 3.0.0 or newer](https://www.videolan.org/vlc/) to be installed.
 ## Roadmap (in no particular order)
 
 - [x] Basic audio playback from Youtube
