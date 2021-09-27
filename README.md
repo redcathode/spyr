@@ -13,16 +13,15 @@ You can grab a stable release from [here.](https://github.com/asolidtime/spyr/re
 ## Roadmap (in no particular order)
 
 - [x] Basic audio playback from Youtube
-- [ ] check to see if vlc is installed, and possibly try to bundle libvlc with the jar
-- [ ] An icon! (and possibly some sort of banner to show at the top)
-- [ ] Screenshots! (and just a bette readme in general)
-- [ ] A better README! (this one has too many parentheses and maybe a few too many exclamation points!)
-- [ ] Search YouTube (preferably without needing an API key)
-- [ ] Support Spotify playlists and tracks (probably using Odesli)
+- [ ] notify the user if VLC isn't installed, and possibly try to bundle libvlc with the jar
+- [ ] An icon!
+- [x] Screenshots! (and just a bette readme in general)
+- [ ] Search for songs (preferably without needing a rate-limited API)
+- [ ] Support playlists and tracks from other platforms (probably using Odesli)
 - [ ] Support playlists at all
 - [x] Show frequently played songs (and playlists once that gets included)
 - [ ] Show previous listening sessions
 - [ ] Show track thumbnail/info
 - [ ] Integrate with system media playback controls
-- [ ] support drag n' dropping songs, both stuff from JLists within the app and links from outside apps
-- [ ] discord integration?
+- [ ] Support drag n' dropping links from outside apps
+- [ ] Discord RPC integration
