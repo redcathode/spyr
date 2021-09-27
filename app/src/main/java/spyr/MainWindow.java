@@ -116,10 +116,8 @@ public class MainWindow {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (e.getClickCount() == 2) {
-                    songManager.addExistingSong(songManager.configManager.getYoutubeId(recentSongTable.getSelectedRow()));
-                    listModel.add(listModel.size(), songManager.songTitleList.get(listModel.size()));
-                }
+                songManager.addExistingSong(songManager.configManager.getYoutubeId(recentSongTable.getSelectedRow()));
+                listModel.add(listModel.size(), songManager.songTitleList.get(listModel.size()));
             }
         });
     }
