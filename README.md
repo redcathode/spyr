@@ -8,7 +8,7 @@ If that little blurb somehow managed to sell you already, you can grab a stable 
 
 ## Screenshots!
 ![Light Mode (with settings open)](https://raw.githubusercontent.com/asolidtime/spyr/main/images/lightmode.png)
-![Dark Mode](https://raw.githubusercontent.com/asolidtime/spyr/main/images/darkmode.png)
+![Dark Mode (as you can see, I really like Tally Hall](https://raw.githubusercontent.com/asolidtime/spyr/main/images/darkmode.png)
 
 ## Roadmap (in no particular order)
 

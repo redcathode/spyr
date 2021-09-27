@@ -214,6 +214,6 @@ public class MainWindow {
                 }
             }
         });
-        recentSongTable.getColumnModel().getColumn(1).setMaxWidth(10);
+        recentSongTable.getColumnModel().getColumn(1).setMaxWidth(40);
     }
 }
