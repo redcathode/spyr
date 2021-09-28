@@ -9,9 +9,9 @@ You can grab the latest version of Spyr from [here.](https://github.com/asolidti
 ## Usage
 
 When you first start up Spyr, you'll probably see something like this:
-![](https://raw.githubusercontent.com/asolidtime/spyr/main/images/initialstartup.png)
+![](https://raw.githubusercontent.com/asolidtime/spyr/main/images/initialstartup.png)  
 In order to add a song from here, paste a YouTube link into the text box at the bottom and hit 'Add song!'.  
-Songs will be added one after another to the queue (big box in the center). You can hit 'Start' or click on a song in the queue to start playback.
+Songs will be added one after another to the queue (big box to the left). You can hit 'Start' or click on a song in the queue to start playback.
   
 After adding a few songs, you'll notice the 'Recently Listened' tab start to fill up with songs you listen to.
 ![](https://https://raw.githubusercontent.com/asolidtime/spyr/main/images/recentlylistened.png)
