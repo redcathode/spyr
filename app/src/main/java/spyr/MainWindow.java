@@ -167,6 +167,7 @@ public class MainWindow {
             public void windowClosing(WindowEvent e) {
                 App.writeOutJson();
                 App.audioPlayer.exit();
+                App.embeddedMediaPlayerComponent.release();
                 System.exit(0);
             }
         });

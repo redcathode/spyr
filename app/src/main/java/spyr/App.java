@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import net.harawata.appdirs.AppDirs;
 import net.harawata.appdirs.AppDirsFactory;
 import spyr.configStorage.ConfigManager;
+import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 
 import javax.swing.*;
 import java.io.*;
@@ -23,6 +24,7 @@ public class App {
     public static File songsJson;
     public static File configJson;
     public static ConfigManager appConfigManager;
+    public static EmbeddedMediaPlayerComponent embeddedMediaPlayerComponent;
     public static void openConfig() {
         File configDirLocation = new File(configDir);
         configJson = new File(configDir + "/config.json");
@@ -62,6 +64,7 @@ public class App {
     }
     public static void main(String[] args) {
         audioPlayer = new AudioPlayer();
+        embeddedMediaPlayerComponent = new EmbeddedMediaPlayerComponent();
         openConfig();
         System.out.println("Configuration will be stored at " + configDir);
 

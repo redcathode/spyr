@@ -17,17 +17,15 @@ public class LivestreamWindow {
     private JPanel livestreamWindow;
     private JPanel videoPane;
     private JFrame frame;
-    private final EmbeddedMediaPlayerComponent embeddedMediaPlayerComponent;
 
     private void close() {
-        // release audio player...
-        embeddedMediaPlayerComponent.release();
+        // stop audio player, but don't release
+        App.embeddedMediaPlayerComponent.mediaPlayer().controls().stop();
         frame.setVisible(false);
         frame.dispose();
     }
 
     public LivestreamWindow() {
-        embeddedMediaPlayerComponent = new EmbeddedMediaPlayerComponent();
         $$$setupUI$$$();
         frame = new JFrame("Play livestream");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -45,7 +43,7 @@ public class LivestreamWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (startButton.getText().equals("Start")) {
-                    embeddedMediaPlayerComponent.mediaPlayer().media().play(pasteYouTubeLivestreamURLTextField.getText());
+                    App.embeddedMediaPlayerComponent.mediaPlayer().media().play(pasteYouTubeLivestreamURLTextField.getText());
                     startButton.setText("Stop");
                 } else {
                     close();
@@ -85,6 +83,6 @@ public class LivestreamWindow {
 
     private void createUIComponents() {
         videoPane = new JPanel(new BorderLayout());
-        videoPane.add(embeddedMediaPlayerComponent, BorderLayout.CENTER);
+        videoPane.add(App.embeddedMediaPlayerComponent, BorderLayout.CENTER);
     }
 }
