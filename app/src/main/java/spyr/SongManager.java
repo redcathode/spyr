@@ -38,11 +38,11 @@ public class SongManager {
     }
     private String getVideoId(String url) {
         String id;
-
         if (url.contains("youtube.com")) {
-            id = url.substring(32);
+            id = url.substring(url.indexOf("youtube.com") + 20, url.indexOf("youtube.com") + 32);
+        } else if (url.contains("youtu.be")) {
+            id = url.substring(url.indexOf("youtu.be") + 9, url.indexOf("youtu.be") + 20);
         } else {
-            // todo: do this properly
             id = "";
         }
         return id;
