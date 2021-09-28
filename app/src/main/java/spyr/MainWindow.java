@@ -2,11 +2,11 @@ package spyr;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -56,7 +56,6 @@ public class MainWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 livestreamWindow = new LivestreamWindow();
-                livestreamWindow.setup();
             }
         });
         fileMenu.add(settingsMenuItem);
