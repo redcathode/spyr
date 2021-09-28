@@ -36,7 +36,7 @@ public class LivestreamWindow {
             }
         });
         frame.pack();
-        frame.setBounds(100, 100, 600, 350);
+        frame.setBounds(100, 100, 400, 350);
         frame.setContentPane(livestreamWindow);
         frame.setVisible(true);
         startButton.addActionListener(new ActionListener() {
