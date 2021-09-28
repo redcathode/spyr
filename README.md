@@ -1,6 +1,7 @@
 # Spyr
 
 Spyr (sounds like 'spire') is a music streaming client built in Java and Swing that aims to be a functional replacement to the music streaming bots popular on Discord. It's also an effort for me to teach myself more about Java.
+If you want a brief explanation on how to use it, click [here.](https://github.com/asolidtime/spyr/blob/main/TUTORIAL.md)
 
 **Alright, where can I get it?**
 
