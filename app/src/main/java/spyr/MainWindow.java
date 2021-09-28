@@ -21,6 +21,7 @@ public class MainWindow {
     private JButton pauseButton;
     private JTable recentSongTable;
     private JTree tree1;
+    private LivestreamWindow livestreamWindow;
     DefaultListModel listModel = new DefaultListModel();
     SongManager songManager;
     private AbstractTableModel recentSongTableModel;
@@ -54,7 +55,7 @@ public class MainWindow {
         livestreamMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                LivestreamWindow livestreamWindow = new LivestreamWindow();
+                livestreamWindow = new LivestreamWindow();
                 livestreamWindow.setup();
             }
         });

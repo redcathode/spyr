@@ -3,6 +3,7 @@ package spyr;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
+import uk.co.caprica.vlcj.player.component.MediaPlayerComponent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,7 @@ public class LivestreamWindow {
     private JPanel livestreamWindow;
     private JPanel videoPane;
     private JFrame frame;
-    private EmbeddedMediaPlayerComponent embeddedMediaPlayerComponent = new EmbeddedMediaPlayerComponent();
+    private final EmbeddedMediaPlayerComponent embeddedMediaPlayerComponent;
 
     private void close() {
         // release audio player...
@@ -27,6 +28,7 @@ public class LivestreamWindow {
     }
 
     public LivestreamWindow() {
+        embeddedMediaPlayerComponent = new EmbeddedMediaPlayerComponent();
         $$$setupUI$$$();
         startButton.addActionListener(new ActionListener() {
             @Override
