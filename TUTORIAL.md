@@ -23,6 +23,13 @@ After adding a few songs, you'll notice the 'Recently Listened' tab start to fil
 If you click on any of those songs, they'll be added to the queue.  
 ![](https://raw.githubusercontent.com/asolidtime/spyr/main/images/addsongfromrecents.gif)
 
+## Livestreams
+
+If you'd like to play a YouTube livestream, you can open the livestream window via Play -> Play livestream.  
+![](https://raw.githubusercontent.com/asolidtime/spyr/main/images/livestreammenu.png)  
+In the window that opens up, enter a URL to a YouTube livestream and hit 'Start'.  
+![](https://raw.githubusercontent.com/asolidtime/spyr/main/images/lofihiphop.png)
+
 ## Help
 
 If you have any issues, feel free to head over to the [issue tracker](https://github.com/asolidtime/spyr/issues) and let me know!
