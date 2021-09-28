@@ -17,6 +17,7 @@ You can grab a stable release from [here.](https://github.com/asolidtime/spyr/re
 - [x] Basic audio playback from Youtube
 - [ ] notify the user if VLC isn't installed, and possibly try to bundle libvlc with the jar
 - [ ] An icon!
+- [x] Support Youtube livestreams
 - [x] Screenshots! (and just a bette readme in general)
 - [ ] Search for songs (preferably without needing a rate-limited API)
 - [ ] Support playlists and tracks from other platforms (probably using Odesli)
