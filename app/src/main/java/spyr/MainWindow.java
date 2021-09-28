@@ -35,12 +35,15 @@ public class MainWindow {
 
     public MainWindow() {
         songManager = new SongManager(AudioQuality.HIGH);
-        menuBar = new JMenuBar();
-        JMenu fileMenu = new JMenu("File");
         $$$setupUI$$$();
         addSongButton.putClientProperty("JButton.buttonType", "square");
+        menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        JMenu playMenu = new JMenu("Play");
         menuBar.add(fileMenu);
+        menuBar.add(playMenu);
         JMenuItem settingsMenuItem = new JMenuItem("Settings");
+        JMenuItem livestreamMenuItem = new JMenuItem("Play livestream");
         settingsMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,7 +51,15 @@ public class MainWindow {
                 settingsWindow.setup();
             }
         });
+        livestreamMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LivestreamWindow livestreamWindow = new LivestreamWindow();
+                livestreamWindow.setup();
+            }
+        });
         fileMenu.add(settingsMenuItem);
+        playMenu.add(livestreamMenuItem);
         // actionlisteners n' timers
         addSongButton.addActionListener(new ActionListener() {
             @Override
@@ -157,7 +168,6 @@ public class MainWindow {
                 App.writeOutJson();
                 App.audioPlayer.exit();
                 System.exit(0);
-//
             }
         });
         frame.setContentPane(panelMain);

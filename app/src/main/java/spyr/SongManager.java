@@ -39,7 +39,7 @@ public class SongManager {
     private String getVideoId(String url) {
         String id;
         if (url.contains("youtube.com")) {
-            id = url.substring(url.indexOf("youtube.com") + 20, url.indexOf("youtube.com") + 32);
+            id = url.substring(url.indexOf("youtube.com") + 20, url.indexOf("youtube.com") + 31);
         } else if (url.contains("youtu.be")) {
             id = url.substring(url.indexOf("youtu.be") + 9, url.indexOf("youtu.be") + 20);
         } else {
@@ -58,12 +58,24 @@ public class SongManager {
 
         // get opus track for song
         // TODO: fallback to other audio tracks if this specific itag is unavailable, and actually make AudioQuality do something
-        Format formatOpusByItag = video.findFormatByItag(251);
-        if (formatOpusByItag != null) {
-            System.out.println("opus: " + formatOpusByItag.url());
+        Format formatByItag = video.findFormatByItag(251);
+        String vidUrl;
+        if (formatByItag != null) {
+            System.out.println("opus: " + formatByItag.url());
+            vidUrl = formatByItag.url();
+        } else {
+            formatByItag = video.bestAudioFormat();
+            if (formatByItag != null) {
+                vidUrl = formatByItag.url();
+            } else {
+                //just let vlc handle it lol
+                vidUrl = String.format("https://www.youtube.com/watch?v=" + videoId);
+                System.out.println(vidUrl);
+            }
         }
+
         String vidTitle = video.details().title();
-        songURLList.add(formatOpusByItag.url());
+        songURLList.add(vidUrl);
         songTitleList.add(vidTitle);
         songDescList.add(video.details().description());
         configManager.addSongToJson(vidTitle, videoId);
@@ -76,12 +88,23 @@ public class SongManager {
         VideoInfo video = response.data();
         // get opus track for song
         // TODO: fallback to other audio tracks if this specific itag is unavailable, and actually make AudioQuality do something
-        Format formatOpusByItag = video.findFormatByItag(251);
-        if (formatOpusByItag != null) {
-            System.out.println("opus: " + formatOpusByItag.url());
+        Format formatByItag = video.findFormatByItag(251);
+        String vidUrl;
+        if (formatByItag != null) {
+            System.out.println("opus: " + formatByItag.url());
+            vidUrl = formatByItag.url();
+        } else {
+            formatByItag = video.bestAudioFormat();
+            if (formatByItag != null) {
+                vidUrl = formatByItag.url();
+            } else {
+                //just let vlc handle it lol
+                vidUrl = String.format("https://www.youtube.com/watch?v=" + videoId);
+                System.out.println(vidUrl);
+            }
         }
         String vidTitle = video.details().title();
-        songURLList.add(formatOpusByItag.url());
+        songURLList.add(vidUrl);
         songTitleList.add(vidTitle);
         songDescList.add(video.details().description());
         configManager.addSongToJson(vidTitle, videoId);

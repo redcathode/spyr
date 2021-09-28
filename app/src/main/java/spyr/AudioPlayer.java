@@ -55,6 +55,9 @@ public class AudioPlayer {
         });
         audioPlayerComponent.mediaPlayer().media().play(mrl);
     }
+    public void startLivestream(String mrl) {
+
+    }
     public void play() {
         audioPlayerComponent.mediaPlayer().controls().play();
     }
