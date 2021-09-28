@@ -53,7 +53,7 @@ public class ConfigManager {
                     1
             ));
         }
-
+        App.mainWindow.refreshJList();
         Gson gsonTest = new Gson();
         System.out.println("Current song JSON: " + gsonTest.toJson(songJsonList));
     }

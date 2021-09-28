@@ -23,6 +23,12 @@ public class MainWindow {
     private JTree tree1;
     DefaultListModel listModel = new DefaultListModel();
     SongManager songManager;
+    private AbstractTableModel recentSongTableModel;
+
+    public void refreshJList() {
+        //this is a bit unoptimized, should fix later
+        list1.repaint();
+    }
     public void setPlaying() {
         pauseButton.setText("Pause");
     }
@@ -116,8 +122,19 @@ public class MainWindow {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                songManager.addExistingSong(songManager.configManager.getYoutubeId(recentSongTable.getSelectedRow()));
-                listModel.add(listModel.size(), songManager.songTitleList.get(listModel.size()));
+                if (recentSongTable.getSelectedColumn() != -1) {
+                    songManager.addExistingSong(songManager.configManager.getYoutubeId(recentSongTable.getSelectedRow()));
+                    listModel.add(listModel.size(), songManager.songTitleList.get(listModel.size()));
+                }
+            }
+        });
+        songField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (songField.getText().equals("Add song URLs here...")) {
+                    songField.setText("");
+                }
             }
         });
     }
@@ -166,7 +183,7 @@ public class MainWindow {
         panelMain.add(scrollPane1, new GridConstraints(0, 0, 2, 6, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         scrollPane1.setViewportView(list1);
         songField = new JTextField();
-        songField.setText("");
+        songField.setText("Add song URLs here...");
         panelMain.add(songField, new GridConstraints(2, 0, 1, 10, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         pauseButton = new JButton();
         pauseButton.setText("Start");
@@ -194,7 +211,7 @@ public class MainWindow {
 
     private void createUIComponents() {
         list1 = new JList(listModel);
-        recentSongTable = new JTable(new AbstractTableModel() {
+        recentSongTableModel = new AbstractTableModel() {
             @Override
             public int getRowCount() {
                 return songManager.configManager.getNumSongs();
@@ -213,7 +230,8 @@ public class MainWindow {
                     return songManager.configManager.getTimesListenedTo(rowIndex);
                 }
             }
-        });
+        };
+        recentSongTable = new JTable(recentSongTableModel);
         recentSongTable.getColumnModel().getColumn(1).setMaxWidth(40);
     }
 }

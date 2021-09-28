@@ -28,7 +28,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value=""/>
+          <text value="Add song URLs here..."/>
         </properties>
       </component>
       <component id="60c8" class="javax.swing.JButton" binding="pauseButton" default-binding="true">
