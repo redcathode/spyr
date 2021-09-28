@@ -1,4 +1,4 @@
-If you were linked here from somewhere else and just want to set up and run Spyr, click [here.](https://github.com/asolidtime/spyr/blob/main/TUTORIAL.md) Otherwise, continue scrolling.
+For a tutorial on how to set up, run, and use Spyr, click [here.](https://github.com/asolidtime/spyr/blob/main/TUTORIAL.md) Otherwise, continue scrolling.
 
 # Spyr
 
