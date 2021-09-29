@@ -33,7 +33,12 @@ public class AudioPlayer {
                 mediaPlayer.submit(new Runnable() {
                     @Override
                     public void run() {
-                        mediaPlayer.media().play(App.mainWindow.getNextSongUrl());
+                        if (!App.mainWindow.isLoopEnabled()) {
+                            mediaPlayer.media().play(App.mainWindow.getNextSongUrl());
+                        } else {
+                            mediaPlayer.controls().setPosition(0);
+                            mediaPlayer.controls().play();
+                        }
                     }
                 });
 

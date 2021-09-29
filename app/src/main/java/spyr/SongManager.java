@@ -81,6 +81,11 @@ public class SongManager {
         configManager.addSongToJson(vidTitle, videoId);
         System.out.println("added song " + songTitleList.get(songTitleList.size() - 1));
     }
+    public void removeSong(int index) {
+        songURLList.remove(index);
+        songTitleList.remove(index);
+        songDescList.remove(index);
+    }
     public void addExistingSong(String videoId) {
         YoutubeDownloader downloader = new YoutubeDownloader();
         RequestVideoInfo request = new RequestVideoInfo(videoId);
