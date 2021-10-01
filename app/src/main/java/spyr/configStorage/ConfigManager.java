@@ -8,6 +8,8 @@ import spyr.App;
 import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ConfigManager {
     ArrayList<Song> songJsonList;
@@ -18,6 +20,11 @@ public class ConfigManager {
     }
     public static String createTestSongsConfig() {
         return "[]";
+    }
+    static class SongComparator implements Comparator<Song> {
+        public int compare(Song o1, Song o2) {
+            return Integer.compare(o2.timesListenedTo, o1.timesListenedTo);
+        }
     }
     public ConfigManager() {
         Gson gson = new Gson();
@@ -38,6 +45,7 @@ public class ConfigManager {
             for (Song song : songJsonList) {
                 if (song.youtubeId.equals(songId)) {
                     song.timesListenedTo++;
+                    songJsonList.sort(new SongComparator());
                     foundSong = true;
                 }
             }

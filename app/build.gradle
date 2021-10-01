@@ -29,6 +29,7 @@ dependencies {
     implementation 'net.harawata:appdirs:1.2.1'
     implementation 'uk.co.caprica:vlcj:4.7.1'
     implementation 'com.google.code.gson:gson:2.8.8'
+
 }
 
 

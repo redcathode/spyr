@@ -34,8 +34,8 @@ public class MainWindow {
         public SongPopup() {
             deleteSong = new JMenuItem("Remove from queue");
             playSong = new JMenuItem("Play from here");
-            add(deleteSong);
             add(playSong);
+            add(deleteSong);
             playSong.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
