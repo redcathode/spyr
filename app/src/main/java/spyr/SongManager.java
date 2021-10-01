@@ -85,6 +85,10 @@ public class SongManager {
         songURLList.remove(index);
         songTitleList.remove(index);
         songDescList.remove(index);
+        App.mainWindow.refreshJList();
+        if (App.mainWindow.getPlayingIndex() == index) {
+            App.audioPlayer.stop();
+        }
     }
     public void addExistingSong(String videoId) {
         YoutubeDownloader downloader = new YoutubeDownloader();

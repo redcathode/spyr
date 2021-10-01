@@ -15,7 +15,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="f6729" class="javax.swing.JList" binding="list1" custom-create="true" default-binding="true">
+          <component id="8bf2f" class="javax.swing.JList" binding="list1" custom-create="true" default-binding="true">
             <constraints/>
             <properties/>
           </component>

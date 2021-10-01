@@ -35,6 +35,7 @@ public class AudioPlayer {
                     public void run() {
                         if (!App.mainWindow.isLoopEnabled()) {
                             mediaPlayer.media().play(App.mainWindow.getNextSongUrl());
+                            App.mainWindow.uptickPlayingIndex();
                         } else {
                             mediaPlayer.controls().setPosition(0);
                             mediaPlayer.controls().play();
@@ -60,9 +61,6 @@ public class AudioPlayer {
         });
         audioPlayerComponent.mediaPlayer().media().play(mrl);
     }
-    public void startLivestream(String mrl) {
-
-    }
     public void play() {
         audioPlayerComponent.mediaPlayer().controls().play();
     }
@@ -71,5 +69,8 @@ public class AudioPlayer {
     }
     public int getPercentage() {
         return Math.round(audioPlayerComponent.mediaPlayer().status().position() * 100);
+    }
+    public void stop() {
+        audioPlayerComponent.mediaPlayer().controls().stop();
     }
 }

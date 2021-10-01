@@ -29,6 +29,9 @@ public class ConfigManager {
         }
 
     }
+    public void removeSongFromJson(int index) {
+        songJsonList.remove(index);
+    }
     public void addSongToJson(String songName, String songId) {
         if (!songJsonList.isEmpty()) {
             boolean foundSong = false;

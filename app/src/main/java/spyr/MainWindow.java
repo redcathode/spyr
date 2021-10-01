@@ -25,12 +25,66 @@ public class MainWindow {
     DefaultListModel listModel = new DefaultListModel();
     SongManager songManager;
     private AbstractTableModel recentSongTableModel;
+    private int playingIndex;
 
+    // inline classes
+    class SongPopup extends JPopupMenu {
+        JMenuItem deleteSong;
+        JMenuItem playSong;
+        public SongPopup() {
+            deleteSong = new JMenuItem("Remove from queue");
+            playSong = new JMenuItem("Play from here");
+            add(deleteSong);
+            add(playSong);
+            playSong.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (!songManager.songTitleList.isEmpty()) {
+                        App.audioPlayer.start(songManager.getSongUrl(list1.getSelectedIndex()));
+                        playingIndex = list1.getSelectedIndex();
+                    }
+                }
+            });
+            deleteSong.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (!listModel.isEmpty()) {
+                        songManager.removeSong(list1.getSelectedIndex());
+                        listModel.remove(list1.getSelectedIndex());
+                    }
+                }
+            });
+        }
+    }
+    class SongClickListener extends MouseAdapter {
+        public void mousePressed(MouseEvent e) {
+            if (e.getButton() == MouseEvent.BUTTON1) {
+                doPop(e);
+            }
+        }
+
+        public void mouseReleased(MouseEvent e) {
+            if (e.getButton() == MouseEvent.BUTTON1) {
+                doPop(e);
+            }
+        }
+
+        private void doPop(MouseEvent e) {
+            SongPopup songPopup = new SongPopup();
+            songPopup.show(e.getComponent(), e.getX(), e.getY());
+        }
+    }
+    // methods
     public void refreshJList() {
         //this is a bit unoptimized, should fix later
         list1.repaint();
     }
-
+    public int getPlayingIndex() {
+        return playingIndex;
+    }
+    public void uptickPlayingIndex() {
+        playingIndex++;
+    }
     public void setPlaying() {
         pauseButton.setText("Pause");
     }
@@ -54,6 +108,7 @@ public class MainWindow {
         JMenu playMenu = new JMenu("Play");
         menuBar.add(fileMenu);
         menuBar.add(playMenu);
+        list1.addMouseListener(new SongClickListener());
         JMenuItem settingsMenuItem = new JMenuItem("Settings");
         JMenuItem livestreamMenuItem = new JMenuItem("Play livestream");
         settingsMenuItem.addActionListener(new ActionListener() {
@@ -84,15 +139,6 @@ public class MainWindow {
                     JOptionPane.showMessageDialog(panelMain, "Song must be a YouTube URL!");
                 }
 
-            }
-        });
-        list1.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if (!songManager.songTitleList.isEmpty()) {
-                    App.audioPlayer.start(songManager.getSongUrl(list1.getSelectedIndex()));
-                }
             }
         });
         // can these two be merged?
