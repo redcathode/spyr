@@ -4,7 +4,7 @@ Welcome! This short guide will show you how to setup and use Spyr.
 
 ## Download & Installation
 
-You can grab the latest version of Spyr from [here.](https://github.com/asolidtime/spyr/releases) (download the JAR, not the ZIP) In order to run the JAR you downloaded, you'll need to install [Java 8 or newer](https://adoptopenjdk.net/?variant=openjdk16&jvmVariant=hotspot) and have [VLC 3.0.0 or newer](https://www.videolan.org/vlc/) installed.
+You can grab the latest version of Spyr from [here.](https://github.com/asolidtime/spyr/releases) (download the JAR, not the ZIP) In order to run the JAR you downloaded, you'll need to install [Java 8 or newer](https://adoptopenjdk.net/?variant=openjdk16&jvmVariant=hotspot) and have [the latest version of VLC](https://www.videolan.org/vlc/) installed.
 
 ## Usage
 
