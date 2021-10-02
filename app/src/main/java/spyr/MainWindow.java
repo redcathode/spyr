@@ -83,6 +83,7 @@ public class MainWindow {
         return playingIndex;
     }
     public void uptickPlayingIndex() {
+        list1.setSelectedIndex(list1.getSelectedIndex() + 1);
         playingIndex++;
     }
     public void setPlaying() {
@@ -212,9 +213,9 @@ public class MainWindow {
     }
 
     public String getNextSongUrl() {
-        list1.setSelectedIndex(songManager.playingIndex + 1);
         return songManager.getNextSongUrl();
     }
+
 
     public void setup() {
         JFrame frame = new JFrame("Spyr");

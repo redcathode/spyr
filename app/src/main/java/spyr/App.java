@@ -49,6 +49,7 @@ public class App {
     }
     public static void writeOutJson() {
         //todo: this entire method does a great job of showcasing how little I know about java OOP
+        mainWindow.songManager.configManager.sortSongJson();
         songsJson.delete();
         configJson.delete();
         try {

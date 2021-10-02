@@ -8,6 +8,7 @@ import javax.swing.*;
 
 public class AudioPlayer {
     private final AudioPlayerComponent audioPlayerComponent;
+    private String currentUrl;
 
     public void exit() {
         // It is not allowed to call back into LibVLC from an event handling thread, so submit() is used
