@@ -38,6 +38,9 @@ public class ConfigManager {
     public void sortSongJson() {
         songJsonList.sort(new SongComparator());
     }
+    public void removeSongFromJson(int index) {
+        songJsonList.remove(index);
+    }
     public void addSongToJson(String songName, String songId) {
         if (!songJsonList.isEmpty()) {
             boolean foundSong = false;

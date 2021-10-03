@@ -57,6 +57,34 @@ public class MainWindow {
             });
         }
     }
+    class RecentsPopup extends JPopupMenu {
+        JMenuItem deleteSong;
+        JMenuItem addSong;
+        public RecentsPopup() {
+            deleteSong = new JMenuItem("Remove from recents");
+            addSong = new JMenuItem("Add to queue");
+            add(addSong);
+            add(deleteSong);
+            addSong.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (recentSongTable.getSelectedColumn() != -1) {
+                        songManager.addExistingSong(songManager.configManager.getYoutubeId(recentSongTable.getSelectedRow()));
+                        listModel.add(listModel.size(), songManager.songTitleList.get(listModel.size()));
+                    }
+                }
+            });
+            deleteSong.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (recentSongTable.getSelectedColumn() != -1) {
+                        songManager.configManager.removeSongFromJson(recentSongTable.getSelectedRow());
+                        refreshJList();
+                    }
+                }
+            });
+        }
+    }
     class SongClickListener extends MouseAdapter {
         public void mousePressed(MouseEvent e) {
             if (e.getButton() == MouseEvent.BUTTON1) {
@@ -73,6 +101,24 @@ public class MainWindow {
         private void doPop(MouseEvent e) {
             SongPopup songPopup = new SongPopup();
             songPopup.show(e.getComponent(), e.getX(), e.getY());
+        }
+    }
+    class RecentsClickListener extends MouseAdapter {
+        public void mousePressed(MouseEvent e) {
+            if (e.getButton() == MouseEvent.BUTTON1) {
+                doPop(e);
+            }
+        }
+
+        public void mouseReleased(MouseEvent e) {
+            if (e.getButton() == MouseEvent.BUTTON1) {
+                doPop(e);
+            }
+        }
+
+        private void doPop(MouseEvent e) {
+            RecentsPopup recentsPopup = new RecentsPopup();
+            recentsPopup.show(e.getComponent(), e.getX(), e.getY());
         }
     }
     // methods
@@ -112,6 +158,7 @@ public class MainWindow {
         menuBar.add(fileMenu);
         menuBar.add(playMenu);
         list1.addMouseListener(new SongClickListener());
+        recentSongTable.addMouseListener(new RecentsClickListener());
         JMenuItem settingsMenuItem = new JMenuItem("Settings");
         JMenuItem livestreamMenuItem = new JMenuItem("Play livestream");
         settingsMenuItem.addActionListener(new ActionListener() {
@@ -194,16 +241,6 @@ public class MainWindow {
                         }
                         pauseButton.setText("Pause");
                     }
-                }
-            }
-        });
-        recentSongTable.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if (recentSongTable.getSelectedColumn() != -1) {
-                    songManager.addExistingSong(songManager.configManager.getYoutubeId(recentSongTable.getSelectedRow()));
-                    listModel.add(listModel.size(), songManager.songTitleList.get(listModel.size()));
                 }
             }
         });
