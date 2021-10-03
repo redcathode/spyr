@@ -20,8 +20,8 @@ You can grab a stable release from [here.](https://github.com/asolidtime/spyr/re
 - [x] Support Youtube livestreams
 - [x] Screenshots! (and just a bette readme in general)
 - [ ] Search for songs (preferably without needing a rate-limited API)
-- [ ] Support playlists and tracks from other platforms (probably using Odesli)
-- [ ] Support playlists at all
+- [x] Support tracks from other platforms
+- [ ] Support playlists
 - [x] Show frequently played songs (and playlists once that gets included)
 - [ ] Show previous listening sessions
 - [ ] Show track thumbnail/info

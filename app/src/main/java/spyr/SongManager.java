@@ -6,8 +6,18 @@ import com.github.kiulian.downloader.downloader.request.RequestVideoInfo;
 import com.github.kiulian.downloader.downloader.response.Response;
 import com.github.kiulian.downloader.model.videos.VideoInfo;
 import com.github.kiulian.downloader.model.videos.formats.Format;
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
 import spyr.configStorage.ConfigManager;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 
@@ -47,8 +57,21 @@ public class SongManager {
         }
         return id;
     }
+    private String getOdesliUrl(String query) throws UnsupportedEncodingException {
+        return "https://api.song.link/v1-alpha.1/links?url=" + URLEncoder.encode(query, "UTF-8");
+    }
+    public void addSongLinkFromOdesli(String url) throws IOException {
+        URL songUrl = new URL(getOdesliUrl(url));
+        System.out.println(songUrl.toString());
+        HttpURLConnection connection = (HttpURLConnection) songUrl.openConnection();
+        connection.setRequestProperty("accept", "application/json");
+        InputStream responseStream = connection.getInputStream();
+        String jsonResult = CharStreams.toString(new InputStreamReader(responseStream, Charsets.UTF_8));
+        addExistingSong(jsonResult.substring(jsonResult.indexOf("YOUTUBE_VIDEO::") + 15, jsonResult.indexOf("YOUTUBE_VIDEO::") + 26));
+    }
     public void addSongFromURL(String query) {
         // might wanna do all of this asynchronously but whatever
+
         System.out.println(getVideoId(query));
         YoutubeDownloader downloader = new YoutubeDownloader();
         String videoId = getVideoId(query);

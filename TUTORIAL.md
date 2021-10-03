@@ -13,7 +13,7 @@ When you first start up Spyr, you'll probably see something like this:
 
 #### Adding Songs
 
-In order to add a song from here, paste a YouTube link into the text box at the bottom and hit 'Add song!'.  
+In order to add a song from here, paste a song link into the text box at the bottom and hit 'Add song!'. This supports almost every music platform in existence (thanks Odesli!).
 ![](https://raw.githubusercontent.com/asolidtime/spyr/main/images/addsongfromurl.gif)   
 Songs will be added one after another to the queue (big box to the left). You can hit 'Start' to play from the top of the queue or click on a song in the queue to play from there. The app will continue playing songs in your queue until it reaches the bottom of your queue.
 

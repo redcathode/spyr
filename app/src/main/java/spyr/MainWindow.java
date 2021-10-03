@@ -8,6 +8,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 public class MainWindow {
     private JMenuBar menuBar;
@@ -78,6 +79,7 @@ public class MainWindow {
     public void refreshJList() {
         //this is a bit unoptimized, should fix later
         list1.repaint();
+        recentSongTable.repaint();
     }
     public int getPlayingIndex() {
         return playingIndex;
@@ -137,7 +139,15 @@ public class MainWindow {
                     songField.setText("");
                     listModel.add(listModel.size(), songManager.songTitleList.get(songManager.songTitleList.size() - 1));
                 } else {
-                    JOptionPane.showMessageDialog(panelMain, "Song must be a YouTube URL!");
+                    try {
+                        songManager.addSongLinkFromOdesli(songQuery);
+                        songField.setText("");
+                        listModel.add(listModel.size(), songManager.songTitleList.get(songManager.songTitleList.size() - 1));
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(panelMain, "Song must be a YouTube URL!");
+                        ex.printStackTrace();
+                    }
+
                 }
 
             }
