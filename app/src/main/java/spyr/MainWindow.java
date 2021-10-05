@@ -5,31 +5,26 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
 public class MainWindow {
-    private JMenuBar menuBar;
+    private final JMenuBar menuBar;
     private JPanel panelMain;
     private JTextArea songInfoGoesHereTextArea;
     private JTextField songField;
     private JButton addSongButton;
     private JSlider slider1;
-    private JList list1;
+    private JList<String> list1;
     private JButton pauseButton;
     private JTable recentSongTable;
     private JCheckBox loopCheckBox;
     private JTree tree1;
     private LivestreamWindow livestreamWindow;
-    DefaultListModel listModel = new DefaultListModel();
+    DefaultListModel<String> listModel = new DefaultListModel<>();
     SongManager songManager;
-    private AbstractTableModel recentSongTableModel;
     private int playingIndex;
 
     // inline classes
@@ -358,8 +353,8 @@ public class MainWindow {
     }
 
     private void createUIComponents() {
-        list1 = new JList(listModel);
-        recentSongTableModel = new AbstractTableModel() {
+        list1 = new JList<>(listModel);
+        AbstractTableModel recentSongTableModel = new AbstractTableModel() {
             @Override
             public int getRowCount() {
                 return songManager.configManager.getNumSongs();
