@@ -199,7 +199,7 @@ public class MainWindow {
                         songField.setText("");
                         listModel.add(listModel.size(), songManager.songTitleList.get(songManager.songTitleList.size() - 1));
                     } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(panelMain, "Song must be a YouTube URL!");
+                        JOptionPane.showMessageDialog(panelMain, "Invalid song URL!");
                         ex.printStackTrace();
                     }
 
