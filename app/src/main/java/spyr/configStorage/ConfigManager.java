@@ -41,7 +41,7 @@ public class ConfigManager {
     public void removeSongFromJson(int index) {
         songJsonList.remove(index);
     }
-    public void addSongToJson(String songName, String songId) {
+    public void addSongToJson(String songName, String songId, String songAuthor) {
         if (!songJsonList.isEmpty()) {
             boolean foundSong = false;
             for (Song song : songJsonList) {
@@ -55,6 +55,7 @@ public class ConfigManager {
                 songJsonList.add(new Song(
                         songName,
                         songId,
+                        songAuthor,
                         1
                 ));
             }
@@ -62,6 +63,7 @@ public class ConfigManager {
             songJsonList.add(new Song(
                     songName,
                     songId,
+                    songAuthor,
                     1
             ));
         }
