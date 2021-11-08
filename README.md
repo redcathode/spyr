@@ -27,4 +27,5 @@ You can grab a stable release from [here.](https://github.com/asolidtime/spyr/re
 - [ ] Show track thumbnail/info
 - [ ] Integrate with system media playback controls
 - [ ] Support drag n' dropping links from outside apps
-- [ ] Discord RPC integration
+- [ ] Support hosting a 'listening party'
+- [ ] Asynchronously add songs (or, at least, add them without pausing the entire app's rendering)
