@@ -174,7 +174,7 @@ public class MainWindow {
     }
 
     public MainWindow() {
-        songManager = new SongManager(AudioQuality.HIGH);
+        songManager = new SongManager();
         $$$setupUI$$$();
         addSongButton.putClientProperty("JButton.buttonType", "square");
         menuBar = new JMenuBar();

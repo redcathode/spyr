@@ -26,10 +26,9 @@ public class SongManager {
     public ArrayList<String> songTitleList = new ArrayList<>();
     public ArrayList<String> songURLList = new ArrayList<>();
     public ArrayList<String> songDescList = new ArrayList<>();
-    public AudioQuality quality;
 
-    public SongManager(AudioQuality audioQuality) {
-        quality = audioQuality;
+
+    public SongManager() {
         configManager = new ConfigManager();
     }
     static YoutubeDownloader downloader = new YoutubeDownloader();
@@ -79,7 +78,6 @@ public class SongManager {
         VideoInfo video = response.data();
 
         // get opus track for song
-        // TODO: fallback to other audio tracks if this specific itag is unavailable, and actually make AudioQuality do something
         Format formatByItag = video.findFormatByItag(251);
         String vidUrl;
         if (formatByItag != null) {
