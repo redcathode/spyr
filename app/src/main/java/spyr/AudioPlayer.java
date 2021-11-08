@@ -35,7 +35,9 @@ public class AudioPlayer {
                     @Override
                     public void run() {
                         if (!App.mainWindow.isLoopEnabled()) {
-                            mediaPlayer.media().play(App.mainWindow.getNextSongUrl());
+                            try {
+                                mediaPlayer.media().play(App.mainWindow.getNextSongUrl());
+                            } catch (Exception ignored) {}
                             App.mainWindow.uptickPlayingIndex();
                         } else {
                             mediaPlayer.controls().setPosition(0);

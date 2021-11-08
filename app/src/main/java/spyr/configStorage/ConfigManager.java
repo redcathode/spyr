@@ -93,6 +93,12 @@ public class ConfigManager {
     public void setIsDarkMode(boolean isDarkMode) {
         appConfig.isDarkMode = isDarkMode;
     }
+    public boolean getLoopAfterQueueComplete() {
+        return appConfig.loopAfterQueueComplete;
+    }
+    public void setLoopAfterQueueComplete(boolean loopAfterQueueComplete) {
+        appConfig.loopAfterQueueComplete = loopAfterQueueComplete;
+    }
     public String getAppConfigJson() {
         Gson gson = new Gson();
         return gson.toJson(appConfig);

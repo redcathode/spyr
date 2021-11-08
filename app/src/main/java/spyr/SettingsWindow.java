@@ -10,16 +10,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 
 public class SettingsWindow {
     private JCheckBox darkModeCheckBox;
     private JPanel mainSettingsWindow;
     private JButton closeButton;
+    private JCheckBox loopAfterQueueCompleteCheckBox;
     private JFrame frame;
 
     public SettingsWindow() {
         darkModeCheckBox.setSelected(App.appConfigManager.getIsDarkMode());
+        loopAfterQueueCompleteCheckBox.setSelected(App.appConfigManager.getLoopAfterQueueComplete());
 
         darkModeCheckBox.addActionListener(new ActionListener() {
             @Override
@@ -37,6 +38,12 @@ public class SettingsWindow {
                 } catch (UnsupportedLookAndFeelException ex) {
                     ex.printStackTrace();
                 }
+            }
+        });
+        loopAfterQueueCompleteCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                App.appConfigManager.setLoopAfterQueueComplete(loopAfterQueueCompleteCheckBox.isSelected());
             }
         });
         closeButton.addActionListener(new ActionListener() {
@@ -73,19 +80,22 @@ public class SettingsWindow {
      */
     private void $$$setupUI$$$() {
         mainSettingsWindow = new JPanel();
-        mainSettingsWindow.setLayout(new GridLayoutManager(3, 3, new Insets(0, 0, 0, 0), -1, -1));
+        mainSettingsWindow.setLayout(new GridLayoutManager(4, 3, new Insets(0, 0, 0, 0), -1, -1));
         final Spacer spacer1 = new Spacer();
-        mainSettingsWindow.add(spacer1, new GridConstraints(1, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        mainSettingsWindow.add(spacer1, new GridConstraints(2, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         darkModeCheckBox = new JCheckBox();
         darkModeCheckBox.setText("Dark Mode");
         mainSettingsWindow.add(darkModeCheckBox, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         closeButton = new JButton();
         closeButton.setText("Close");
-        mainSettingsWindow.add(closeButton, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainSettingsWindow.add(closeButton, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
-        mainSettingsWindow.add(spacer2, new GridConstraints(1, 1, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mainSettingsWindow.add(spacer2, new GridConstraints(2, 1, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer3 = new Spacer();
-        mainSettingsWindow.add(spacer3, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        mainSettingsWindow.add(spacer3, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        loopAfterQueueCompleteCheckBox = new JCheckBox();
+        loopAfterQueueCompleteCheckBox.setText("Loop after queue complete");
+        mainSettingsWindow.add(loopAfterQueueCompleteCheckBox, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**

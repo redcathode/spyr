@@ -5,7 +5,10 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.TreeModelListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -17,25 +20,29 @@ public class MainWindow {
     private JTextField songField;
     private JButton addSongButton;
     private JSlider slider1;
-    private JList<String> list1;
+    private JList<String> songList;
     private JButton pauseButton;
     private JTable recentSongTable;
     private JCheckBox loopCheckBox;
-    private JTree tree1;
+    private JTabbedPane tabbedPane1;
+    private JTree songArtistTree;
     private LivestreamWindow livestreamWindow;
     DefaultListModel<String> listModel = new DefaultListModel<>();
+    TreeModel songArtistTreeModel;
     SongManager songManager;
     private int playingIndex;
+    private BulkSongAdder bulkSongAdder;
 
     // inline classes
     class SongPopup extends JPopupMenu {
         JMenuItem deleteSong;
         JMenuItem playSong;
+        JMenuItem cancelButton;
 
         public SongPopup() {
             deleteSong = new JMenuItem("Remove from queue");
             playSong = new JMenuItem("Play from here");
-            JMenuItem cancelButton = new JMenuItem("Cancel");
+            cancelButton = new JMenuItem("Cancel");
             add(playSong);
             add(deleteSong);
             add(cancelButton);
@@ -43,8 +50,8 @@ public class MainWindow {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (!songManager.songTitleList.isEmpty()) {
-                        App.audioPlayer.start(songManager.getSongUrl(list1.getSelectedIndex()));
-                        playingIndex = list1.getSelectedIndex();
+                        App.audioPlayer.start(songManager.getSongUrl(songList.getSelectedIndex()));
+                        playingIndex = songList.getSelectedIndex();
                     }
                 }
             });
@@ -52,8 +59,8 @@ public class MainWindow {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (!listModel.isEmpty()) {
-                        songManager.removeSong(list1.getSelectedIndex());
-                        listModel.remove(list1.getSelectedIndex());
+                        songManager.removeSong(songList.getSelectedIndex());
+                        listModel.remove(songList.getSelectedIndex());
                     }
                 }
             });
@@ -63,12 +70,15 @@ public class MainWindow {
     class RecentsPopup extends JPopupMenu {
         JMenuItem deleteSong;
         JMenuItem addSong;
+        JMenuItem cancelButton;
 
         public RecentsPopup() {
             deleteSong = new JMenuItem("Remove from recents");
             addSong = new JMenuItem("Add to queue");
+            cancelButton = new JMenuItem("Cancel");
             add(addSong);
             add(deleteSong);
+            add(cancelButton);
             addSong.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -131,7 +141,7 @@ public class MainWindow {
     // methods
     public void refreshJList() {
         //this is a bit unoptimized, should fix later
-        list1.repaint();
+        songList.repaint();
         recentSongTable.repaint();
     }
 
@@ -140,8 +150,13 @@ public class MainWindow {
     }
 
     public void uptickPlayingIndex() {
-        list1.setSelectedIndex(list1.getSelectedIndex() + 1);
-        playingIndex++;
+        if (playingIndex + 1 == listModel.size() && App.appConfigManager.getLoopAfterQueueComplete()) {
+            songList.setSelectedIndex(0);
+            App.audioPlayer.start(songManager.getSongUrl(0));
+        } else {
+            songList.setSelectedIndex(playingIndex + 1);
+            playingIndex++;
+        }
     }
 
     public void setPlaying() {
@@ -149,7 +164,7 @@ public class MainWindow {
     }
 
     public void removeSelectedSong() {
-        int index = list1.getSelectedIndex();
+        int index = songList.getSelectedIndex();
         listModel.remove(index);
         songManager.removeSong(index);
     }
@@ -167,10 +182,11 @@ public class MainWindow {
         JMenu playMenu = new JMenu("Play");
         menuBar.add(fileMenu);
         menuBar.add(playMenu);
-        list1.addMouseListener(new SongClickListener());
+        songList.addMouseListener(new SongClickListener());
         recentSongTable.addMouseListener(new RecentsClickListener());
         JMenuItem settingsMenuItem = new JMenuItem("Settings");
         JMenuItem livestreamMenuItem = new JMenuItem("Play livestream");
+        JMenuItem bulkSongAddMenuItem = new JMenuItem("Bulk add songs");
         settingsMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -184,7 +200,14 @@ public class MainWindow {
                 livestreamWindow = new LivestreamWindow();
             }
         });
+        bulkSongAddMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                bulkSongAdder = new BulkSongAdder();
+            }
+        });
         fileMenu.add(settingsMenuItem);
+        fileMenu.add(bulkSongAddMenuItem);
         playMenu.add(livestreamMenuItem);
         // actionlisteners n' timers
         addSongButton.addActionListener(new ActionListener() {
@@ -192,7 +215,7 @@ public class MainWindow {
             public void actionPerformed(ActionEvent e) {
                 String songQuery = songField.getText();
                 if (SongManager.isYoutubeURL(songQuery)) {
-                    songManager.addSongFromURL(songField.getText());
+                    songManager.addSongFromYoutubeURL(songField.getText());
                     songField.setText("");
                     listModel.add(listModel.size(), songManager.songTitleList.get(songManager.songTitleList.size() - 1));
                 } else {
@@ -245,7 +268,7 @@ public class MainWindow {
                 } else {
                     if (!songManager.songTitleList.isEmpty()) {
                         try {
-                            App.audioPlayer.start(songManager.songURLList.get(list1.getSelectedIndex()));
+                            App.audioPlayer.start(songManager.songURLList.get(songList.getSelectedIndex()));
                         } catch (IndexOutOfBoundsException ignored) {
                             App.audioPlayer.start(songManager.songURLList.get(0));
                         }
@@ -323,16 +346,13 @@ public class MainWindow {
         panelMain.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JScrollPane scrollPane1 = new JScrollPane();
         panelMain.add(scrollPane1, new GridConstraints(0, 0, 4, 7, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        scrollPane1.setViewportView(list1);
+        scrollPane1.setViewportView(songList);
         songField = new JTextField();
         songField.setText("Add song URLs here...");
         panelMain.add(songField, new GridConstraints(4, 0, 1, 11, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         pauseButton = new JButton();
         pauseButton.setText("Start");
         panelMain.add(pauseButton, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        recentSongTable.setEnabled(true);
-        recentSongTable.setFillsViewportHeight(false);
-        panelMain.add(recentSongTable, new GridConstraints(1, 7, 3, 6, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         addSongButton = new JButton();
         addSongButton.setText("Add song!");
         panelMain.add(addSongButton, new GridConstraints(4, 11, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -345,6 +365,18 @@ public class MainWindow {
         loopCheckBox = new JCheckBox();
         loopCheckBox.setText("Loop");
         panelMain.add(loopCheckBox, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        tabbedPane1 = new JTabbedPane();
+        panelMain.add(tabbedPane1, new GridConstraints(1, 7, 3, 6, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(200, 200), null, 0, false));
+        final JPanel panel1 = new JPanel();
+        panel1.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        tabbedPane1.addTab("Top", panel1);
+        panel1.add(recentSongTable, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        final JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        tabbedPane1.addTab("Artists", panel2);
+        final JScrollPane scrollPane2 = new JScrollPane();
+        panel2.add(scrollPane2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        scrollPane2.setViewportView(songArtistTree);
     }
 
     /**
@@ -355,7 +387,7 @@ public class MainWindow {
     }
 
     private void createUIComponents() {
-        list1 = new JList<>(listModel);
+        songList = new JList<>(listModel);
         AbstractTableModel recentSongTableModel = new AbstractTableModel() {
             @Override
             public int getRowCount() {
@@ -378,5 +410,47 @@ public class MainWindow {
         };
         recentSongTable = new JTable(recentSongTableModel);
         recentSongTable.getColumnModel().getColumn(1).setMaxWidth(40);
+        songArtistTreeModel = new TreeModel() {
+            @Override
+            public Object getRoot() {
+                return null;
+            }
+
+            @Override
+            public Object getChild(Object o, int i) {
+                return null;
+            }
+
+            @Override
+            public int getChildCount(Object o) {
+                return 0;
+            }
+
+            @Override
+            public boolean isLeaf(Object o) {
+                return false;
+            }
+
+            @Override
+            public void valueForPathChanged(TreePath treePath, Object o) {
+
+            }
+
+            @Override
+            public int getIndexOfChild(Object o, Object o1) {
+                return 0;
+            }
+
+            @Override
+            public void addTreeModelListener(TreeModelListener treeModelListener) {
+
+            }
+
+            @Override
+            public void removeTreeModelListener(TreeModelListener treeModelListener) {
+
+            }
+        };
+        songArtistTree = new JTree(songArtistTreeModel);
     }
 }

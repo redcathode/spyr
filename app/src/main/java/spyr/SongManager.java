@@ -68,7 +68,7 @@ public class SongManager {
         String jsonResult = CharStreams.toString(new InputStreamReader(responseStream, Charsets.UTF_8));
         addExistingSong(jsonResult.substring(jsonResult.indexOf("YOUTUBE_VIDEO::") + 15, jsonResult.indexOf("YOUTUBE_VIDEO::") + 26));
     }
-    public void addSongFromURL(String query) {
+    public void addSongFromYoutubeURL(String query) {
         // might wanna do all of this asynchronously but whatever
 
         System.out.println(getVideoId(query));
