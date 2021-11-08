@@ -118,7 +118,6 @@ public class SongManager {
         Response<VideoInfo> response = downloader.getVideoInfo(request);
         VideoInfo video = response.data();
         // get opus track for song
-        // TODO: fallback to other audio tracks if this specific itag is unavailable, and actually make AudioQuality do something
         Format formatByItag = video.findFormatByItag(251);
         String vidUrl;
         if (formatByItag != null) {
