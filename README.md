@@ -1,3 +1,10 @@
+# I abandoned this project a while back.
+I started working on this to teach myself Java, and overall I'm pretty proud of the results, but, in the end, it's not a serious app. It's a fun, educational project that I picked up mainly for fun. I don't know of anyone using it, and I've switched to [Pithos](https://pithos.github.io) for music streaming, so I don't see any reason to keep maintaining it. Anyway, here's the rest of the README:
+  
+  
+------------
+  
+  
 For a tutorial on how to set up, run, and use Spyr, click [here.](https://github.com/asolidtime/spyr/blob/main/TUTORIAL.md) Otherwise, continue scrolling.
 
 # Spyr
